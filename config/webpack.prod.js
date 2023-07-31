@@ -80,6 +80,7 @@ module.exports = {
     }),
   ],
   devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
   optimization: {
     splitChunks: {
       chunks: 'all'
@@ -89,3 +90,5 @@ module.exports = {
     // 解析模块，自动补全扩展名
     extensions: ['.jsx', '.js', '.json']
   },
+  mode: 'production'
+}
