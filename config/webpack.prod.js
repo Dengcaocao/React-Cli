@@ -89,11 +89,3 @@ module.exports = {
     // 解析模块，自动补全扩展名
     extensions: ['.jsx', '.js', '.json']
   },
-  devServer: {
-    hot: true,
-    open: true,
-    port: 4180,
-    historyApiFallback: true
-  },
-  mode: 'development'
-}
