@@ -1,6 +1,7 @@
 const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 
 const getCssLoader = type => {
   return [
@@ -64,6 +65,8 @@ module.exports = {
         loader: 'babel-loader',
         options: {
           // 可开启缓存提升速度
+          // 配置react热更新
+          plugins: [require.resolve('react-refresh/babel')]
         }
       }
     ]
@@ -76,7 +79,9 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html')
-    })
+    }),
+    // 开启react热更新
+    new ReactRefreshWebpackPlugin()
   ],
   devtool: 'cheap-module-source-map',
   optimization: {
