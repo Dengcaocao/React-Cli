@@ -1,10 +1,11 @@
 const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 const getCssLoader = type => {
   return [
-    'style-loader',
+    MiniCssExtractPlugin.loader,
     'css-loader',
     { // 处理样式兼容性，需配合packjson.browserslist指定兼容的版本
       loader: 'postcss-loader',
@@ -77,6 +78,11 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html')
+    }),
+    // 将css抽取为单独文件
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].[contenthash:10].css',
+      chunkFilename: 'css/[name].[contenthash:10].chunk.css'
     }),
   ],
   devtool: 'cheap-module-source-map',
