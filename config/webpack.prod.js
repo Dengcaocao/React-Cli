@@ -4,6 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
 const TerserPlugin = require("terser-webpack-plugin")
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin")
+const { extendDefaultPlugins } = require("svgo")
 
 const getCssLoader = type => {
   return [
@@ -89,7 +91,34 @@ module.exports = {
     // 压缩css
     new CssMinimizerPlugin(),
     // 压缩js
-    new TerserPlugin()
+    new TerserPlugin(),
+    // 开启图片无损压缩
+    new ImageMinimizerPlugin({
+      minimizerOptions: {
+        plugins: [
+          ["gifsicle", { interlaced: true }],
+          ["jpegtran", { progressive: true }],
+          ["optipng", { optimizationLevel: 5 }],
+          [
+            "svgo",
+            {
+              plugins: extendDefaultPlugins([
+                {
+                  name: "removeViewBox",
+                  active: false
+                },
+                {
+                  name: "addAttributesToSVGElement",
+                  params: {
+                    attributes: [{ xmlns: "http://www.w3.org/2000/svg" }]
+                  }
+                }
+              ])
+            }
+          ]
+        ]
+      }
+    })
   ],
   devtool: 'source-map',
   optimization: {
