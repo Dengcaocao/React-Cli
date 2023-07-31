@@ -2,6 +2,8 @@ const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
+const TerserPlugin = require("terser-webpack-plugin")
 
 const getCssLoader = type => {
   return [
@@ -23,10 +25,10 @@ module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: 'js/[name].js',
+    filename: 'js/[name].[contenthash:10].js',
     // 动态导入的文件
-    chunkFilename: 'js/[name].chunk.js',
-    assetModuleFilename: 'assets/[name][hash:8][ext][query]'
+    chunkFilename: 'js/[name].[contenthash:10].chunk.js',
+    assetModuleFilename: 'assets/[name][hash:8][ext][query]',
     clean: true // 在生成文件之前清空 output 目录
   },
   module: {
@@ -84,8 +86,11 @@ module.exports = {
       filename: 'css/[name].[contenthash:10].css',
       chunkFilename: 'css/[name].[contenthash:10].chunk.css'
     }),
+    // 压缩css
+    new CssMinimizerPlugin(),
+    // 压缩js
+    new TerserPlugin()
   ],
-  devtool: 'cheap-module-source-map',
   devtool: 'source-map',
   optimization: {
     splitChunks: {
