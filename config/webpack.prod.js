@@ -26,6 +26,7 @@ module.exports = {
     // 动态导入的文件
     chunkFilename: 'js/[name].chunk.js',
     assetModuleFilename: 'assets/[name][hash:8][ext][query]'
+    clean: true // 在生成文件之前清空 output 目录
   },
   module: {
     rules: [
