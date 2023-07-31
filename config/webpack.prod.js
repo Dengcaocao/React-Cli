@@ -22,7 +22,7 @@ const getCssLoader = type => {
 module.exports = {
   entry: './src/main.js',
   output: {
-    path: undefined,
+    path: path.resolve(__dirname, '../dist'),
     filename: 'js/[name].js',
     // 动态导入的文件
     chunkFilename: 'js/[name].chunk.js',
