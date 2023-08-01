@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin")
 const TerserPlugin = require("terser-webpack-plugin")
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin")
+const CopyPlugin = require("copy-webpack-plugin")
 
 const getCssLoader = type => {
   return [
@@ -118,7 +119,19 @@ module.exports = {
           ]
         }
       }
-    })
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, '../public'),
+          to: path.resolve(__dirname, '../dist'),
+          globOptions: {
+            // 忽略文件
+            ignore: ["**/index.html"],
+          }
+        }
+      ]
+    }),
   ],
   devtool: 'source-map',
   optimization: {
